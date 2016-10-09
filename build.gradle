@@ -8,13 +8,27 @@ buildscript {
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'spring-boot'
-
-jar {
-    baseName = 'spittr'
-    version  = '0.1.0'
+plugins {
+    id "java"
+    id "com.github.samueltbrown.cucumber" version "0.9"
 }
+
+apply plugin: 'idea'
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("$buildDir/classes/main/")
+    }
+}
+
+apply plugin: 'war'
+
+war {
+    baseName = 'spittr'
+    version =  '0.1.0'
+}
+
+apply plugin: 'spring-boot'
 
 repositories {
     mavenCentral()
@@ -25,5 +39,23 @@ dependencies {
             "org.thymeleaf:thymeleaf-spring4")
     testCompile("org.springframework.boot:spring-boot-starter-test:1.4.1.RELEASE",
             "junit:junit:4.12",
+            "org.mockito:mockito-all:2.0.2-beta",
+            "info.cukes:cucumber-java:1.2.5",
+            "info.cukes:cucumber-spring:1.2.5",
             "org.assertj:assertj-core:3.5.2")
+    cucumberRuntime "info.cukes:cucumber-java:1.2.5"
+}
+
+task bootRunByPort() {
+    bootRun {
+        def port = project.hasProperty("port") ? "$port" : 0
+        systemProperty "server.port", port
+    }
+}
+bootRunByPort.finalizedBy bootRun
+
+cucumber {
+    if (project.hasProperty('tag')) {
+        tags = ["@" + "$tag"]
+    }
 }
