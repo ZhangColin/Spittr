@@ -4,7 +4,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootGradleVersion"
     }
 }
 
@@ -36,14 +36,16 @@ repositories {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web",
-            "org.thymeleaf:thymeleaf-spring4")
-    testCompile("org.springframework.boot:spring-boot-starter-test:1.4.1.RELEASE",
+            "org.thymeleaf:thymeleaf-spring4",
+            "org.apache.commons:commons-lang3:$commonsLangVersion",
+            "org.projectlombok:lombok:$lombokVersion")
+    testCompile("org.springframework.boot:spring-boot-starter-test:$springBootGradleVersion",
             "junit:junit:4.12",
-            "org.mockito:mockito-all:2.0.2-beta",
-            "info.cukes:cucumber-java:1.2.5",
-            "info.cukes:cucumber-spring:1.2.5",
-            "org.assertj:assertj-core:3.5.2")
-    cucumberRuntime "info.cukes:cucumber-java:1.2.5"
+            "org.mockito:mockito-all:$mockitoVersion",
+            "info.cukes:cucumber-java:$cucumberJavaVersion",
+            "info.cukes:cucumber-spring:$cucumberSpringVersion",
+            "org.assertj:assertj-core:$assertJCoreVersion")
+    cucumberRuntime "info.cukes:cucumber-java:$cucumberJavaVersion"
 }
 
 task bootRunByPort() {
