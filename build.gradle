@@ -1,0 +1,29 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'spittr'
+    version  = '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web",
+            "org.thymeleaf:thymeleaf-spring4")
+    testCompile("org.springframework.boot:spring-boot-starter-test:1.4.1.RELEASE",
+            "junit:junit:4.12",
+            "org.assertj:assertj-core:3.5.2")
+}
