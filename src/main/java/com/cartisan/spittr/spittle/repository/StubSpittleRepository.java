@@ -16,9 +16,15 @@ public class StubSpittleRepository implements SpittleRepository {
     public List<Spittle> findSpittles(long max, int count) {
         List<Spittle> spittles = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            spittles.add(new Spittle("Spittle "+i, new Date()));
+
+            spittles.add(new Spittle("Spittle " + i, new Date(), (double)i, (double)i));
         }
 
         return spittles;
+    }
+
+    @Override
+    public Spittle findOne(Long spittleId) {
+        return new Spittle("Hello", new Date());
     }
 }
