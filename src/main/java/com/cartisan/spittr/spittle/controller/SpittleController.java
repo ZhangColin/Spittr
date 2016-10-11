@@ -2,6 +2,7 @@ package com.cartisan.spittr.spittle.controller;
 
 import com.cartisan.spittr.spittle.domain.Spittle;
 import com.cartisan.spittr.spittle.repository.SpittleRepository;
+import com.cartisan.spittr.spittle.view.SpittleForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
  * Created by Administrator on 2016/10/9.
@@ -41,5 +44,11 @@ public class SpittleController {
     public String showSpittle(@PathVariable Long spittleId, Model model) {
         model.addAttribute(spittleRepository.findOne(spittleId));
         return "spittles/spittle";
+    }
+
+    @RequestMapping(method = POST)
+    public String saveSpittle(SpittleForm form){
+        spittleRepository.save(new Spittle(null, form.getMessage(),new Date(), form.getLongitude(), form.getLatitude()));
+        return "redirect:/spittles";
     }
 }

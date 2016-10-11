@@ -17,7 +17,7 @@ public class StubSpittleRepository implements SpittleRepository {
         List<Spittle> spittles = new ArrayList<>();
         for (int i = 0; i < count; i++) {
 
-            spittles.add(new Spittle("Spittle " + i, new Date(), (double)i, (double)i));
+            spittles.add(new Spittle(null, "Spittle " + i, new Date(), (double)i, (double)i));
         }
 
         return spittles;
@@ -26,5 +26,10 @@ public class StubSpittleRepository implements SpittleRepository {
     @Override
     public Spittle findOne(Long spittleId) {
         return new Spittle("Hello", new Date());
+    }
+
+    @Override
+    public void save(Spittle spittle) {
+
     }
 }
