@@ -1,8 +1,15 @@
 <h1>Register</h1>
 <form method="post">
-    First Name: <input type="text" name="firstName"/><br/>
-    Last Name: <input type="text" name="lastName"/><br/>
-    User Name: <input type="text" name="userName"/><br/>
-    Password: <input type="password" name="password"/><br/>
+    <div class="errors">
+        <ul>
+            {{#customerErrors}}
+            <li>{{value}}</li>
+            {{/customerErrors}}
+        </ul>
+    </div>
+    <label>First Name</label>: <input type="text" name="firstName" value="{{spitter.firstName}}"/><br/>
+    <label>Last Name</label>: <input type="text" name="lastName"  value="{{spitter.lastName}}"/><br/>
+    <label>User Name</label>: <input type="text" name="userName"  value="{{spitter.userName}}"/><br/>
+    <label>Password</label>: <input type="password" name="password" value="{{spitter.password}}"/><br/>
     <input type="submit" value="Register"/>
 </form>

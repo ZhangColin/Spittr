@@ -51,7 +51,7 @@ dependencies {
 
 task bootRunByPort() {
     bootRun {
-        def port = project.hasProperty("port") ? "$port" : 0
+        def port = project.hasProperty("port") ? "$port" : 8080
         systemProperty "server.port", port
     }
 }

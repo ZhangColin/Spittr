@@ -1,5 +1,6 @@
 package com.cartisan.spittr.spitter.controller;
 
+import com.cartisan.spittr.Message;
 import com.cartisan.spittr.spitter.domain.Spitter;
 import com.cartisan.spittr.spitter.repository.SpitterRepository;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+
+import java.util.stream.Collectors;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -32,10 +35,16 @@ public class SpitterController {
     }
 
     @RequestMapping(value="/register", method = POST)
-    public String processRegistration(@Valid Spitter spitter, Errors errors){
-        if (errors.hasErrors())
+    public String processRegistration(@Valid Spitter spitter, Errors errors, Model model){
+        if (errors.hasErrors()) {
+            model.addAttribute("customerErrors", errors.getFieldErrors().stream().map(fieldError -> {
+                Message message =new Message();
+                message.setName(fieldError.getField());
+                message.setValue(fieldError.getDefaultMessage());
+                return message;
+            }).collect(Collectors.toList()));
             return "spitters/register";
-
+        }
         spitterRepository.save(spitter);
 
         return "redirect:/spitters/"+spitter.getUserName();
