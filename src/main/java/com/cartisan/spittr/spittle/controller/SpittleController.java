@@ -6,6 +6,7 @@ import com.cartisan.spittr.spittle.view.SpittleForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,13 +41,22 @@ public class SpittleController {
 
     @RequestMapping(value="/{spittleId}", method =  GET)
     public String showSpittle(@PathVariable Long spittleId, Model model) {
-        model.addAttribute(spittleRepository.findOne(spittleId));
+        Spittle spittle = spittleRepository.findOne(spittleId);
+        if (spittle==null)
+            throw new SpittleNotFoundException();
+        model.addAttribute(spittle);
         return "spittles/spittle";
     }
 
     @RequestMapping(method = POST)
     public String saveSpittle(SpittleForm form){
-        spittleRepository.save(new Spittle(null, form.getMessage(),new Date(), form.getLongitude(), form.getLatitude()));
+        spittleRepository.save(new Spittle(null, form.getMessage(),new Date(),
+                form.getLongitude(), form.getLatitude()));
         return "redirect:/spittles";
     }
+
+    /*@ExceptionHandler(DuplicateSpittleException.class)
+    public String handleDuplicateSpittle(){
+        return "error/duplicate";
+    }*/
 }

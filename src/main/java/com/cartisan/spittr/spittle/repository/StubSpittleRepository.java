@@ -1,5 +1,6 @@
 package com.cartisan.spittr.spittle.repository;
 
+import com.cartisan.spittr.spittle.controller.DuplicateSpittleException;
 import com.cartisan.spittr.spittle.domain.Spittle;
 import org.springframework.stereotype.Component;
 
@@ -25,11 +26,13 @@ public class StubSpittleRepository implements SpittleRepository {
 
     @Override
     public Spittle findOne(Long spittleId) {
+        if (spittleId==1)
         return new Spittle("Hello", new Date());
+        return null;
     }
 
     @Override
     public void save(Spittle spittle) {
-
+        throw new DuplicateSpittleException();
     }
 }

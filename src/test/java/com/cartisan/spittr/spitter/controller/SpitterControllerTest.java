@@ -59,7 +59,7 @@ public class SpitterControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("spitters/register"))
                 .andExpect(model().errorCount(5))
-                .andExpect(model().attributeHasFieldErrors("spitter", "firstName", "lastName", "userName", "password", "email"));
+                .andExpect(model().attributeHasFieldErrors("spitterForm", "firstName", "lastName", "userName", "password", "email"));
 
     }
 }
