@@ -1,21 +1,35 @@
 package com.cartisan.spittr.spitter.domain;
 
-import lombok.Data;
 import lombok.Getter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Created by Administrator on 2016/10/10.
  */
 @Getter
+@Entity
+@Table(name = "spitters")
 public class Spitter {
+    @Id
+    @GeneratedValue
     private Long id;
 
+    @NotBlank
     private String userName;
+    @NotBlank
     private String password;
+    @NotBlank
     private String firstName;
+    @NotBlank
     private String lastName;
+    @NotBlank
     private String email;
 
     private Spitter(){}

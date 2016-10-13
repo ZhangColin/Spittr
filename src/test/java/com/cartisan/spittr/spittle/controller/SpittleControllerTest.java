@@ -3,6 +3,9 @@ package com.cartisan.spittr.spittle.controller;
 import com.cartisan.spittr.spittle.domain.Spittle;
 import com.cartisan.spittr.spittle.repository.SpittleRepository;
 import org.junit.Test;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -23,10 +26,10 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 public class SpittleControllerTest {
     @Test
     public void shouldShowRecentSpittles() throws Exception {
-        List<Spittle> expectedSpittles = createSpittleList(20);
+        Page<Spittle> expectedSpittles = createSpittleList(20);
 
         SpittleRepository mockRepository = mock(SpittleRepository.class);
-        when(mockRepository.findSpittles(Long.MAX_VALUE, 20))
+        when(mockRepository.findAll(new PageRequest(0,20)))
                 .thenReturn(expectedSpittles);
 
         SpittleController controller = new SpittleController(mockRepository);
@@ -35,35 +38,35 @@ public class SpittleControllerTest {
         mockMvc.perform(get("/spittles"))
                 .andExpect(view().name("spittles/spittles"))
                 .andExpect(model().attributeExists("spittleList"))
-                .andExpect(model().attribute("spittleList", expectedSpittles));
+                .andExpect(model().attribute("spittleList", expectedSpittles.getContent()));
                 //.andExpect(model().attribute("spittleList", hasItems(expectedSpittles.toArray())));
     }
 
     @Test
     public void shouldShowPagedSpittles() throws Exception {
-        List<Spittle> expectedSpittles = createSpittleList(50);
+        Page<Spittle> expectedSpittles = createSpittleList(50);
 
         SpittleRepository mockRepository = mock(SpittleRepository.class);
-        when(mockRepository.findSpittles(238900, 50))
+        when(mockRepository.findAll(new PageRequest(0, 50)))
                 .thenReturn(expectedSpittles);
 
         SpittleController controller = new SpittleController(mockRepository);
         MockMvc mockMvc = standaloneSetup(controller).build();
 
-        mockMvc.perform(get("/spittles?max=238900&count=50"))
+        mockMvc.perform(get("/spittles?pageSize=0&count=50"))
                 .andExpect(view().name("spittles/spittles"))
                 .andExpect(model().attributeExists("spittleList"))
-                .andExpect(model().attribute("spittleList", expectedSpittles));
+                .andExpect(model().attribute("spittleList", expectedSpittles.getContent()));
                 //.andExpect(model().attribute("spittleList", hasItems(expectedSpittles.toArray())));
     }
 
-    private List<Spittle> createSpittleList(int count) {
+    private Page<Spittle> createSpittleList(int count) {
         List<Spittle> spittles = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             spittles.add(new Spittle("Spittle "+i, new Date()));
         }
-
-        return spittles;
+        Page<Spittle> page = new PageImpl<Spittle>(spittles, new PageRequest(1, count), count);
+        return page;
     }
 
     @Test

@@ -4,14 +4,16 @@ import com.cartisan.spittr.spittle.domain.Spittle;
 import com.cartisan.spittr.spittle.repository.SpittleRepository;
 import com.cartisan.spittr.spittle.view.SpittleForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
+import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -22,7 +24,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @Controller
 @RequestMapping("/spittles")
 public class SpittleController {
-    private static final String MAX_LONG_AS_STRING = "9223372036854775807";
     private SpittleRepository spittleRepository;
 
     @Autowired
@@ -33,9 +34,10 @@ public class SpittleController {
 
     @RequestMapping(method = GET)
     public String spittles(Model model,
-                           @RequestParam(value = "max", defaultValue = MAX_LONG_AS_STRING)Long max,
+                           @RequestParam(value = "pageSize", defaultValue = "0")int pageSize,
                            @RequestParam(value = "count", defaultValue = "20") int count){
-        model.addAttribute(spittleRepository.findSpittles(max, count));
+
+        model.addAttribute(spittleRepository.findAll(new PageRequest(pageSize, count)).getContent());
         return "spittles/spittles";
     }
 

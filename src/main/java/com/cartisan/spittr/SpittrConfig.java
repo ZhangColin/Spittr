@@ -9,9 +9,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 /**
  * Created by Administrator on 2016/10/13.
  */
-@Configuration
+/*@Configuration
 @EnableWebMvc
-@ComponentScan
+@ComponentScan*/
 public class SpittrConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {

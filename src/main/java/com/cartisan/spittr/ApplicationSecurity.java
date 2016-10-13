@@ -12,8 +12,8 @@ import org.springframework.security.web.authentication.rememberme.InMemoryTokenR
 /**
  * Created by Administrator on 2016/10/13.
  */
-@Configuration
-@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
+/*@Configuration
+@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)*/
 public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {

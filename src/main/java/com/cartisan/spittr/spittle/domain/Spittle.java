@@ -3,23 +3,32 @@ package com.cartisan.spittr.spittle.domain;
 import lombok.Getter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.validator.constraints.NotBlank;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
  * Created by Administrator on 2016/10/9.
  */
+@Getter
+@Entity
+@Table(name = "spittles")
 public class Spittle {
-    @Getter
+    @Id
+    @GeneratedValue
     private Long id;
-    @Getter
+    @NotBlank
     private String message;
-    @Getter
     private Date time;
-    @Getter
+
     private Double longitude;
-    @Getter
     private Double latitude;
+
+    private Spittle(){}
 
     public Spittle(String message, Date time) {
         this(null, message, time, null, null);
